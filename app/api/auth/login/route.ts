@@ -36,8 +36,7 @@ export async function POST(request: NextRequest) {
       const options = await generateAuthenticationOptions({
         rpID,
         allowCredentials: user.credentials.map((cred) => ({
-          id: cred.credentialID,          type: 'public-key',
-          transports: cred.transports as AuthenticatorTransport[],
+          id: Buffer.from(cred.credentialID).toString('base64url'),          transports: cred.transports as AuthenticatorTransport[],
         })),
         userVerification: 'preferred',
       });
