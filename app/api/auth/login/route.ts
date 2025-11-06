@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
         expectedOrigin: origin,
         expectedRPID: rpID,
         authenticator: {
-      credentialID: credential.credentialID,          credentialPublicKey: credential.credentialPublicKey,
+      credentialID: credential.credentialID: new Uint8Array(credential.credentialID),     credentialPublicKey: new Uint8Array(credential.credentialPublicKey),
           counter: credential.counter,
         },
       });
