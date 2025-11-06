@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
 
       const credentialID = credentialResponse.id;
       const credential = user.credentials.find(
-        (cred) => Buffer.from(cred.credentialID).toString('base64url') === credentialIBID
+        (cred) => Buffer.from(cred.credentialID).toString('base64url') === credentialID
       );
 
       if (!credential) {
