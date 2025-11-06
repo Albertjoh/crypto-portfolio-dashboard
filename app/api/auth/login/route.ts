@@ -9,20 +9,20 @@ const origin = process.env.NEXT_PUBLIC_ORIGIN || 'http://localhost:3000';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { step, username, response: credentialResponse } = body;
+    const { step, email, response: credentialResponse } = body;
 
     if (step === 'options') {
       // Step 1: Generate authentication options
-      if (!username || typeof username !== 'string') {
+      if (!email || typeof email !== 'string') {
         return NextResponse.json(
-          { error: 'Username is required' },
+          { error: 'Email is required' },
           { status: 400 }
         );
       }
 
       // Find user and their credentials
       const user = await prisma.user.findUnique({
-        where: { username },
+        where: { email },
         include: { credentials: true },
       });
 
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
 
     if (step === 'verify') {
       // Step 2: Verify authentication response
-      if (!username || !credentialResponse) {
+      if (!email || !credentialResponse) {
         return NextResponse.json(
           { error: 'Missing required fields' },
           { status: 400 }
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
       // Find user and credential
       const user = await prisma.user.findUnique({
-        where: { username },
+        where: { email },
         include: { credentials: true },
       });
 
@@ -110,7 +110,7 @@ export async function POST(request: NextRequest) {
 
       const response = NextResponse.json({
         success: true,
-        user: { id: user.id, username: user.username },
+        user: { id: user.id, email: user.email },
       });
 
       // Set session cookie
